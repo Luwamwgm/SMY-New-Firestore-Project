@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { signOut } from "firebase/auth";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
+import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -22,11 +23,26 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/writerunauthenticated">Writer unauth</NavLink>
-        <NavLink to="/readerunauthenticated">Reader unauth</NavLink>
-        <NavLink to="/writerauthenticated">Writer AUTH</NavLink>
-        <NavLink to="/readerauthenticated">Reader AUTH</NavLink>
+        <ul>
+          <li>
+            <Link to="/readerunauthenticated" className="title">
+              SMY Children's toys and books store
+            </Link>
+            <div className="menu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </li>
+          <li>
+            {" "}
+            <NavLink to="/">About Us</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/writerauthenticated">Selling</NavLink>
+          </li>
+        </ul>
       </nav>
       {auth && auth.currentUser ? (
         <button onClick={handleLogout}> Logout </button>

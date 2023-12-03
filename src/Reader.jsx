@@ -29,12 +29,17 @@ export default function Reader({ auth }) {
   return (
     <section className="todo-container">
       <div className="todo">
-        <h1 className="header">Reader {auth ? "AUTH" : "unauth"}</h1>
+        <h1 className="header">Home </h1>
 
         <div className="todo-content">
           <ul>
             {todos?.map((todo) => (
-              <li key={todo.id}>{todo.task}</li>
+              <li key={todo.id}>
+                {todo.itemName}
+                {todo.itemprice}
+                {todo.itemDescription}
+                {todo.uploadPicture}
+              </li>
             ))}
           </ul>
         </div>

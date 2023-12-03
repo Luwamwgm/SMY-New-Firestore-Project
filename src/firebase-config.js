@@ -7,14 +7,14 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS",
-  authDomain: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS",
-  projectId: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS",
-  storageBucket: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS",
-  messagingSenderId: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS",
-  appId: "UPDATE FROM YOUR FIREBASE PROJECT SETTINGS"
+  apiKey: "AIzaSyCaMgO3i9_EBZUHOSy33_6CMObhBGDkJ_8",
+  authDomain: "projectfinal-21.firebaseapp.com",
+  projectId: "projectfinal-21",
+  storageBucket: "projectfinal-21.appspot.com",
+  messagingSenderId: "371441726907",
+  appId: "1:371441726907:web:75bb91d132155ad540409e",
+  measurementId: "G-6HY45YMNG6"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
