@@ -5,8 +5,9 @@
     
      nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items:center;
+padding:10px;
     background-color:rgb(7, 1, 28);
     position:sticky;
     top: 0;
@@ -19,10 +20,16 @@ nav .title{
  font-weight: bold;
  text-decoration: none;
  color:white; 
+ 
 }
 nav ul{
-    display:flex;
-
+    
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 nav ul li{
     list-style:none ;

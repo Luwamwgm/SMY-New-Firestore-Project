@@ -25,7 +25,7 @@ export default function Navbar() {
       <nav>
         <ul>
           <li>
-            <Link to="/readerunauthenticated" className="title">
+            <Link to="/BuyingPage" className="title">
               SMY Children's toys and books store
             </Link>
             <div className="menu">
@@ -40,15 +40,17 @@ export default function Navbar() {
           </li>
 
           <li>
-            <NavLink to="/writerauthenticated">Selling</NavLink>
+            <NavLink to="/SellingPage">Selling</NavLink>
+          </li>
+          <li>
+            {auth && auth.currentUser ? (
+              <button onClick={handleLogout}> Logout </button>
+            ) : (
+              <button onClick={() => navigate("/login")}> Login </button>
+            )}
           </li>
         </ul>
       </nav>
-      {auth && auth.currentUser ? (
-        <button onClick={handleLogout}> Logout </button>
-      ) : (
-        <button onClick={() => navigate("/login")}> Login </button>
-      )}
     </div>
   );
 }

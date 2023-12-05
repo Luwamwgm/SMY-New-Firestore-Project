@@ -1,4 +1,4 @@
-//import "./App.css";
+import "./App.css";
 import { useState, useEffect } from "react";
 import {
   createBrowserRouter,
@@ -11,8 +11,9 @@ import Error from "./Error";
 import Signup from "./Signup";
 import Login from "./Login";
 import AuthProvider from "./AuthContext";
-import Writer from "./Writer";
+import Writer from "./Selling";
 import Reader from "./Reader";
+import Selling from "./Selling";
 
 function App() {
   const [auth, setAuth] = useState(null);
@@ -30,18 +31,18 @@ function App() {
         { path: "/", element: <Home />, errorElement: <Error /> },
         {
           path: "/writerunauthenticated",
-          element: <Writer auth={false} />,
+          element: <Selling auth={false} />,
         },
         {
-          path: "/writerauthenticated",
+          path: "/SellingPage",
           element: auth?.currentUser ? (
-            <Writer auth={true} />
+            <Selling auth={true} />
           ) : (
             <Navigate to="/Login" />
           ),
         },
         {
-          path: "/readerunauthenticated",
+          path: "/BuyingPage",
           element: <Reader auth={false} />,
         },
         {

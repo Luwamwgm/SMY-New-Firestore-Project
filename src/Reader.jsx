@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase-config";
-import "./App.css";
+//import "./App.css";
+import "./Buying.css";
 
 export default function Reader({ auth }) {
   const [todos, setTodos] = useState([]);
@@ -21,6 +22,7 @@ export default function Reader({ auth }) {
       }));
       setTodos(result);
     };
+    //catch(error){console.log("Error fetching data:", error);}
 
     console.log("Fetching data...");
     fetchPost();
@@ -35,10 +37,10 @@ export default function Reader({ auth }) {
           <ul>
             {todos?.map((todo) => (
               <li key={todo.id}>
-                {todo.itemName}
-                {todo.itemprice}
-                {todo.itemDescription}
-                {todo.uploadPicture}
+                <img src={todo.uploadPicture} alt="Item" />
+                <p>Name: {todo.itemName}</p>
+                <p>Price: {todo.itemPrice}</p>
+                <p>Description: {todo.itemDescription}</p>
               </li>
             ))}
           </ul>

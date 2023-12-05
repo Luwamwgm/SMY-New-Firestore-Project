@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import { firebaseAuth } from "./firebase-config";
-
+import "./Login.css";
 // https://stackoverflow.com/questions/65948671/how-to-go-back-to-previous-route-in-react-router-dom-v6
 
 const Login = () => {
@@ -31,6 +31,7 @@ const Login = () => {
       <main>
         <section>
           <div>
+            <h2>To the Selling page Please</h2>
             <h1>Login</h1>
 
             <form>
