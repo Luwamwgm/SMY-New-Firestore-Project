@@ -8,22 +8,18 @@ import "./Buying.css";
 
 export default function Reader({}) {
   const auth = useContext(AuthContext);
-  let name = "";
-  if (auth && auth.currentUser) {
-    const { displayName, email } = auth.currentUser;
-    name = displayName || email;
-  }
+  const [name, setName] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
+    if (auth && auth.currentUser) {
+      const { displayName, email } = auth.currentUser;
+      setName(displayName || email);
+    }
+
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
-      /*
-       * To look at the shape of the data returned form FireStore
-      querySnapshot.docs.map((doc) => {
-        console.log(doc.id, doc.data());
-      });
-      */
+
       const result = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -34,7 +30,15 @@ export default function Reader({}) {
 
     console.log("Fetching data...");
     fetchPost();
-  }, []);
+  }, [auth]);
+
+  const sendEmail = (ownerEmail) => {
+    const subject = encodeURIComponent("Item Inquiry");
+    const body = encodeURIComponent(
+      `Hi, I'm interested in your item. Is it still available?`
+    );
+    window.location.href = `mailto:${ownerEmail}?subject=${subject}&body=${body}`;
+  };
 
   return (
     <section className="todo-container">
@@ -49,11 +53,9 @@ export default function Reader({}) {
                 <p>Name: {todo.itemName}</p>
                 <p>Price: {todo.itemPrice}</p>
                 <p>Description: {todo.itemDescription}</p>
-                <a
-                  href={`mailto:${name}?subject=Availability Inquiry&body=I'm interested in your item. Is it still available?`}
-                >
+                <button onClick={() => sendEmail(todo.user)}>
                   Click to Send an Email for availability
-                </a>
+                </button>
               </li>
             ))}
           </ul>
