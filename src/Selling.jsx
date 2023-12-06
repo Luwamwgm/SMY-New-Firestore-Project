@@ -14,11 +14,14 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function Selling({}) {
   const auth = useContext(AuthContext);
-  let name = "";
-  if (auth && auth.currentUser) {
-    const { displayName, email } = auth.currentUser;
-    name = displayName || email;
-  }
+  const [name, setName] = useState("");
+  //let name = "";
+  useEffect(() => {
+    if (auth && auth.currentUser) {
+      const { displayName, email } = auth.currentUser;
+      setName(displayName || email);
+    }
+  }, [auth]);
   //const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [lastId, setLastId] = useState();
@@ -52,6 +55,7 @@ export default function Selling({}) {
         itemDescription: itemDescription,
         // emailMe: emailMe,
         uploadPicture: snapshot,
+        user: name,
       });
       setLastId(docRef.id);
       console.log("Document written with ID: ", docRef.id);
@@ -70,16 +74,18 @@ export default function Selling({}) {
   useEffect(() => {
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
-      const result = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+      const result = querySnapshot.docs
+        .filter((doc) => doc.data().user === name)
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
       setTodos(result);
     };
 
     console.log("Fetching data...");
     fetchPost();
-  }, [lastId]);
+  }, [lastId, name]);
 
   return (
     <section className="todo-container">
@@ -129,7 +135,12 @@ export default function Selling({}) {
                 );
               }}
             />
-            <input type="email" name="email" value={name} />
+            <input
+              type="email"
+              name="email"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="btn-container">
             <button type="button" className="btn" onClick={addTodo}>
@@ -146,9 +157,13 @@ export default function Selling({}) {
                 <p>Name: {todo.itemName}</p>
                 <p>Price: {todo.itemPrice}</p>
                 <p>Description: {todo.itemDescription}</p>
-                <button type="button" onClick={() => removeTodo(todo.id)}>
-                  Remove
-                </button>
+                <p>Email: {todo.user}</p>
+                <p>Added by: {todo.user}</p>
+                {name === todo.user && (
+                  <button onClick={() => removeTodo(todo.id)}>
+                    Remove Item
+                  </button>
+                )}
               </li>
             ))}
           </ul>
