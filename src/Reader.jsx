@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase-config";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 //import "./App.css";
 import "./Buying.css";
 
-export default function Reader({ auth }) {
+export default function Reader({}) {
+  const auth = useContext(AuthContext);
+  let name = "";
+  if (auth && auth.currentUser) {
+    const { displayName, email } = auth.currentUser;
+    name = displayName || email;
+  }
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -31,7 +39,7 @@ export default function Reader({ auth }) {
   return (
     <section className="todo-container">
       <div className="todo">
-        <h1 className="header">Home </h1>
+        <h1 className="header">Please find Books and Toys </h1>
 
         <div className="todo-content">
           <ul>
@@ -41,6 +49,11 @@ export default function Reader({ auth }) {
                 <p>Name: {todo.itemName}</p>
                 <p>Price: {todo.itemPrice}</p>
                 <p>Description: {todo.itemDescription}</p>
+                <a
+                  href={`mailto:${name}?subject=Availability Inquiry&body=I'm interested in your item. Is it still available?`}
+                >
+                  Click to Send an Email for availability
+                </a>
               </li>
             ))}
           </ul>

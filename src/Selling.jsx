@@ -2,15 +2,24 @@ import { useState, useEffect } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { firestore, storage } from "./firebase-config";
 import "./App.css";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export default function Selling({ auth }) {
+export default function Selling({}) {
+  const auth = useContext(AuthContext);
+  let name = "";
+  if (auth && auth.currentUser) {
+    const { displayName, email } = auth.currentUser;
+    name = displayName || email;
+  }
   //const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [lastId, setLastId] = useState();
   const [itemName, setItemName] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [itemDescription, setItemDescription] = useState("");
+  //const [emailMe, setEmailMe] = useState("");
   const [uploadPicture, setUploadPicture] = useState(null);
 
   const addTodo = async (e) => {
@@ -35,6 +44,7 @@ export default function Selling({ auth }) {
         itemName: itemName,
         itemPrice: itemPrice,
         itemDescription: itemDescription,
+        // emailMe: emailMe,
         uploadPicture: snapshot,
       });
       setLastId(docRef.id);
@@ -61,7 +71,7 @@ export default function Selling({ auth }) {
   return (
     <section className="todo-container">
       <div className="todo">
-        <h1 className="header">Welcome to Selling Page {}</h1>
+        <h1 className="header">Welcome to Selling Page {name}</h1>
 
         <div className="list">
           <div>
@@ -106,6 +116,7 @@ export default function Selling({ auth }) {
                 );
               }}
             />
+            <input type="email" name="email" value={name} />
           </div>
           <div className="btn-container">
             <button type="button" className="btn" onClick={addTodo}>
