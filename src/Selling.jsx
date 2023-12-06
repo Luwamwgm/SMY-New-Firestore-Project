@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { firestore, storage } from "./firebase-config";
 import "./App.css";
 import { useContext } from "react";
@@ -53,7 +59,14 @@ export default function Selling({}) {
       console.error("Error adding document: ", e);
     }
   };
-
+  const removeTodo = async (id) => {
+    try {
+      await deleteDoc(doc(firestore, "todos", id));
+      console.log("Document with ID removed: ", id);
+    } catch (e) {
+      console.error("Error removing document: ", e);
+    }
+  };
   useEffect(() => {
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
@@ -133,6 +146,9 @@ export default function Selling({}) {
                 <p>Name: {todo.itemName}</p>
                 <p>Price: {todo.itemPrice}</p>
                 <p>Description: {todo.itemDescription}</p>
+                <button type="button" onClick={() => removeTodo(todo.id)}>
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
