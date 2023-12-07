@@ -6,6 +6,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import { firebaseAuth } from "./firebase-config";
 import { firestore, storage } from "./firebase-config";
 import "./App.css";
 import { useContext } from "react";
@@ -16,6 +17,14 @@ export default function Selling({}) {
   const auth = useContext(AuthContext);
   const [name, setName] = useState("");
   const [isOwner, setIsOwner] = useState(false);
+  //const [todo, setTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [lastId, setLastId] = useState();
+  const [itemName, setItemName] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [itemDescription, setItemDescription] = useState("");
+  //const [emailMe, setEmailMe] = useState("");
+  const [uploadPicture, setUploadPicture] = useState(null);
   //let name = "";
   useEffect(() => {
     if (auth && auth.currentUser) {
@@ -25,36 +34,6 @@ export default function Selling({}) {
       setIsOwner(email === "tes@yahoo.com");
     }
   }, [auth]);
-
-  const createUserWithEmailAndPassword = async (email, password, role) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        firebaseAuth,
-        email,
-        password
-      );
-
-      // Add the role information to the user profile
-      await updateProfile(userCredential.user, { role });
-
-      return userCredential.user;
-    } catch (error) {
-      // Handle errors
-      console.error(error);
-      throw error;
-    }
-  };
-
-  // Example usage
-  createUserWithEmailAndPassword("tes@yahoo.com", "tesfayebogale", "owner");
-  //const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState([]);
-  const [lastId, setLastId] = useState();
-  const [itemName, setItemName] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
-  //const [emailMe, setEmailMe] = useState("");
-  const [uploadPicture, setUploadPicture] = useState(null);
 
   const addTodo = async (e) => {
     e.preventDefault();
@@ -100,23 +79,12 @@ export default function Selling({}) {
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
 
-      let result;
-      if (isOwner) {
-        // If owner, fetch all items
-        result = querySnapshot.docs.map((doc) => ({
+      const result = querySnapshot.docs
+        .filter((doc) => (isOwner ? true : doc.data().user === "tes@yahoo.com"))
+        .map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
-      } else {
-        // If not owner, fetch only the user's items
-        result = querySnapshot.docs
-          .filter((doc) => doc.data().user === name)
-          .map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
-      }
-      //const result = querySnapshot.docs
 
       setTodos(result);
     };

@@ -16,13 +16,15 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        navigate(-1) || navigate("/selling");
-        console.log(user.id);
+        //navigate(-1) || navigate("/selling");
+        //console.log(user.id);
+        console.log("Login successful. Navigating to /SellingPage");
+        navigate("/SellingPage");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.log("Login error:", errorCode, errorMessage);
       });
   };
 
