@@ -5,7 +5,6 @@ import { firebaseAuth } from "./firebase-config";
 
 const Signup = () => {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,7 +35,7 @@ const Signup = () => {
         <div>
           <div>
             <h1>Sign Up</h1>
-            <form>
+            <form onSubmit={onSubmit}>
               <div>
                 <label htmlFor="email-address">Email address</label>
                 <input
@@ -61,9 +60,7 @@ const Signup = () => {
                 />
               </div>
 
-              <button type="submit" onClick={onSubmit}>
-                Sign up
-              </button>
+              <button type="submit">Sign up</button>
             </form>
 
             <p>

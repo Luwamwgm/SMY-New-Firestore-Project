@@ -15,13 +15,38 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 export default function Selling({}) {
   const auth = useContext(AuthContext);
   const [name, setName] = useState("");
+  const [isOwner, setIsOwner] = useState(false);
   //let name = "";
   useEffect(() => {
     if (auth && auth.currentUser) {
       const { displayName, email } = auth.currentUser;
       setName(displayName || email);
+
+      setIsOwner(email === "tes@yahoo.com");
     }
   }, [auth]);
+
+  const createUserWithEmailAndPassword = async (email, password, role) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+
+      // Add the role information to the user profile
+      await updateProfile(userCredential.user, { role });
+
+      return userCredential.user;
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+      throw error;
+    }
+  };
+
+  // Example usage
+  createUserWithEmailAndPassword("tes@yahoo.com", "tesfayebogale", "owner");
   //const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [lastId, setLastId] = useState();
@@ -43,7 +68,7 @@ export default function Selling({}) {
         storage,
         "todos/" + (uploadPicture && uploadPicture.name)
       );
-
+      console.log("Storage Reference:", storageRef);
       const uploadTask = uploadBytes(storageRef, uploadPicture);
 
       // Wait for the upload to complete
@@ -74,18 +99,31 @@ export default function Selling({}) {
   useEffect(() => {
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
-      const result = querySnapshot.docs
-        .filter((doc) => doc.data().user === name)
-        .map((doc) => ({
+
+      let result;
+      if (isOwner) {
+        // If owner, fetch all items
+        result = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
+      } else {
+        // If not owner, fetch only the user's items
+        result = querySnapshot.docs
+          .filter((doc) => doc.data().user === name)
+          .map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+      }
+      //const result = querySnapshot.docs
+
       setTodos(result);
     };
 
     console.log("Fetching data...");
     fetchPost();
-  }, [lastId, name]);
+  }, [auth, lastId, name, isOwner]);
 
   return (
     <section className="todo-container">
@@ -159,7 +197,15 @@ export default function Selling({}) {
                 <p>Description: {todo.itemDescription}</p>
                 <p>Email: {todo.user}</p>
                 <p>Added by: {todo.user}</p>
-                {name === todo.user && (
+                {/* Allow owner to remove any item */}
+                {isOwner && (
+                  <button onClick={() => removeTodo(todo.id)}>
+                    Remove Item
+                  </button>
+                )}
+
+                {/* Allow regular user to remove only their own items */}
+                {!isOwner && name === todo.user && (
                   <button onClick={() => removeTodo(todo.id)}>
                     Remove Item
                   </button>
