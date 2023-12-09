@@ -90,3 +90,13 @@ label + input {
 }
 */
 
+.item-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: justify-content; /* or justify-content: space-around; */
+}
+
+.item-list li {
+  width: calc(25% - 10px); /* Adjust the width as needed, considering margins */
+  margin: 0 5px; /* Add some margin between items */
+}

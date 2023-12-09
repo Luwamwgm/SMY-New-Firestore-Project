@@ -25,6 +25,7 @@ export default function Selling({}) {
   const [itemDescription, setItemDescription] = useState("");
   //const [emailMe, setEmailMe] = useState("");
   const [uploadPicture, setUploadPicture] = useState(null);
+
   //let name = "";
   useEffect(() => {
     if (auth && auth.currentUser) {
@@ -39,20 +40,21 @@ export default function Selling({}) {
     e.preventDefault();
     try {
       if (!uploadPicture) {
-        console.log("Please upload a picture before submitting.");
+        alert("Please upload a picture before submitting.");
         return;
       }
+      const sanitizedFileName = uploadPicture.name.replace(/[^\w\s]/gi, "_");
 
-      const storageRef = ref(
-        storage,
-        "todos/" + (uploadPicture && uploadPicture.name)
-      );
+      console.log("User Name:", name);
+      console.log("Sanitized File Name:", sanitizedFileName);
+
+      const storageRef = ref(storage, `todos/${sanitizedFileName}`);
       console.log("Storage Reference:", storageRef);
       const uploadTask = uploadBytes(storageRef, uploadPicture);
 
       // Wait for the upload to complete
       const snapshot = await getDownloadURL(storageRef);
-
+      console.log("clicked twice");
       const docRef = await addDoc(collection(firestore, "todos"), {
         itemName: itemName,
         itemPrice: itemPrice,
@@ -63,6 +65,7 @@ export default function Selling({}) {
       });
       setLastId(docRef.id);
       console.log("Document written with ID: ", docRef.id);
+      //fetchPost();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -71,6 +74,9 @@ export default function Selling({}) {
     try {
       await deleteDoc(doc(firestore, "todos", id));
       console.log("Document with ID removed: ", id);
+
+      // Update the state to trigger a re-render
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     } catch (e) {
       console.error("Error removing document: ", e);
     }
@@ -79,12 +85,22 @@ export default function Selling({}) {
     const fetchPost = async () => {
       const querySnapshot = await getDocs(collection(firestore, "todos"));
 
-      const result = querySnapshot.docs
-        .filter((doc) => (isOwner ? true : doc.data().user === "tes@yahoo.com"))
-        .map((doc) => ({
+      let result;
+      if (isOwner) {
+        // If owner, fetch all items
+        result = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
+      } else {
+        // If not owner, fetch only the user's items
+        result = querySnapshot.docs
+          .filter((doc) => doc.data().user === name)
+          .map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+      }
 
       setTodos(result);
     };

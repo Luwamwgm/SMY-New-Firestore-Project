@@ -33,7 +33,7 @@ export default function Home() {
           someone who may use it and whom those need toys and books in lower
           price or for free would be benefited.
         </p>
-        <img src="/itspottytime.jpg" />
+        <img src="/public/IMG_20201115_171652.jpg" />
       </div>
     </>
   );
