@@ -51,23 +51,32 @@ export default function Selling({}) {
       const storageRef = ref(storage, `todos/${sanitizedFileName}`);
       console.log("Storage Reference:", storageRef);
       const uploadTask = uploadBytes(storageRef, uploadPicture);
+      await uploadTask;
 
+      const downloadURL = await getDownloadURL(storageRef);
+      console.log("File uploaded successfully. Download URL:", downloadURL);
       // Wait for the upload to complete
       const snapshot = await getDownloadURL(storageRef);
-      console.log("clicked twice");
+      console.log("upload a picture");
       const docRef = await addDoc(collection(firestore, "todos"), {
         itemName: itemName,
         itemPrice: itemPrice,
         itemDescription: itemDescription,
         // emailMe: emailMe,
-        uploadPicture: snapshot,
+        uploadPicture: downloadURL,
+        //uploadPicture: snapshot,
         user: name,
+      }).catch((error) => {
+        console.error("Error adding document:", error);
+        alert("Failed to add the item, please try again.");
       });
       setLastId(docRef.id);
       console.log("Document written with ID: ", docRef.id);
+
       //fetchPost();
     } catch (e) {
       console.error("Error adding document: ", e);
+      alert("Failed to add the item, please try again.");
     }
   };
   const removeTodo = async (id) => {
@@ -79,6 +88,7 @@ export default function Selling({}) {
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     } catch (e) {
       console.error("Error removing document: ", e);
+      alert("can not remove item");
     }
   };
   useEffect(() => {
@@ -103,6 +113,13 @@ export default function Selling({}) {
       }
 
       setTodos(result);
+
+      if (lastId) {
+        setItemName("");
+        setItemPrice("");
+        setItemDescription("");
+        setUploadPicture(null);
+      }
     };
 
     console.log("Fetching data...");
@@ -110,95 +127,89 @@ export default function Selling({}) {
   }, [auth, lastId, name, isOwner]);
 
   return (
-    <section className="todo-container">
-      <div className="todo">
-        <h1 className="header">Welcome to Selling Page {name}</h1>
+    <div className="todo">
+      <h1 className="header">Welcome to Selling Page {name}</h1>
 
-        <div className="list">
-          <div>
-            <input
-              type="text"
-              placeholder="Item Name"
-              onChange={(e) => setItemName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Item price"
-              onChange={(e) => setItemPrice(e.target.value)}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="Item desription"
-              onChange={(e) => setItemDescription(e.target.value)}
-            />
-          </div>
-          <div>
-            upload you item image
-            {uploadPicture && (
-              <div>
-                <img
-                  alt="not found"
-                  width={"250px"}
-                  src={URL.createObjectURL(uploadPicture)}
-                />
-                <br />
-                <button onClick={() => setUploadPicture(null)}>Remove</button>
-              </div>
-            )}
-            <br />
-            <input
-              type="file"
-              name="myPicture"
-              onChange={(event) => {
-                console.log(
-                  event.target.files[0],
-                  setUploadPicture(event.target.files[0])
-                );
-              }}
-            />
-            <input
-              type="email"
-              name="email"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="btn-container">
-            <button type="button" className="btn" onClick={addTodo}>
-              Submit
-            </button>
-          </div>
+      <div className="list">
+        <div>
+          <input
+            type="text"
+            placeholder="Item Name"
+            onChange={(e) => setItemName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Item price"
+            onChange={(e) => setItemPrice(e.target.value)}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="Item desription"
+            onChange={(e) => setItemDescription(e.target.value)}
+          />
         </div>
-
-        <div className="todo-content">
-          <ul>
-            {todos?.map((todo) => (
-              <li key={todo.id}>
-                <img src={todo.uploadPicture} alt="Item" />
-                <p>Name: {todo.itemName}</p>
-                <p>Price: {todo.itemPrice}</p>
-                <p>Description: {todo.itemDescription}</p>
-                <p>Email: {todo.user}</p>
-                <p>Added by: {todo.user}</p>
-                {/* Allow owner to remove any item */}
-                {isOwner && (
-                  <button onClick={() => removeTodo(todo.id)}>
-                    Remove Item
-                  </button>
-                )}
-
-                {/* Allow regular user to remove only their own items */}
-                {!isOwner && name === todo.user && (
-                  <button onClick={() => removeTodo(todo.id)}>
-                    Remove Item
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div>
+          upload you item image
+          {uploadPicture && (
+            <div>
+              <img
+                alt="not found"
+                width={"250px"}
+                src={URL.createObjectURL(uploadPicture)}
+              />
+              <br />
+              <button onClick={() => setUploadPicture(null)}>Remove</button>
+            </div>
+          )}
+          <br />
+          <input
+            type="file"
+            name="myPicture"
+            onChange={(event) => {
+              console.log(
+                event.target.files[0],
+                setUploadPicture(event.target.files[0])
+              );
+            }}
+          />
+          <input
+            type="email"
+            name="email"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div className="btn-container">
+          <button type="button" className="btn" onClick={addTodo}>
+            Submit
+          </button>
         </div>
       </div>
-    </section>
+
+      <div className="todo-content">
+        <ul>
+          {todos?.map((todo) => (
+            <li key={todo.id}>
+              <img src={todo.uploadPicture} alt="Item" />
+              <p>Name: {todo.itemName}</p>
+              <p>Price: {todo.itemPrice}</p>
+              <p>Description: {todo.itemDescription}</p>
+              <p>Email: {todo.user}</p>
+              <p>Added by: {todo.user}</p>
+              {/* Allow owner to remove any item */}
+              {isOwner && (
+                <button onClick={() => removeTodo(todo.id)}>Remove Item</button>
+              )}
+
+              {/* Allow regular user to remove only their own items */}
+              {!isOwner && name === todo.user && (
+                <button onClick={() => removeTodo(todo.id)}>Remove Item</button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }

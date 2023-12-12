@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase-config";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
-//import "./App.css";
+import "./App.css";
 import "./Buying.css";
 
 export default function Reader({}) {
@@ -41,26 +41,24 @@ export default function Reader({}) {
   };
 
   return (
-    <section className="todo-container">
-      <div className="todo">
-        <h1 className="header">Please find Books and Toys </h1>
+    <>
+      <h1 className="header">Please find Books and Toys </h1>
 
-        <div className="todo-content">
-          <ul>
-            {todos?.map((todo) => (
-              <li key={todo.id}>
-                <img src={todo.uploadPicture} alt="Item" />
-                <p>Name: {todo.itemName}</p>
-                <p>Price: {todo.itemPrice}</p>
-                <p>Description: {todo.itemDescription}</p>
-                <button onClick={() => sendEmail(todo.user)}>
-                  Click to Send an Email for availability
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="todo-content">
+        <ul>
+          {todos?.map((todo) => (
+            <li key={todo.id}>
+              <img src={todo.uploadPicture} alt="Item" />
+              <p>Name: {todo.itemName}</p>
+              <p>Price: {todo.itemPrice}</p>
+              <p>Description: {todo.itemDescription}</p>
+              <button onClick={() => sendEmail(todo.user)}>
+                Click to Send an Email for availability
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-    </section>
+    </>
   );
 }

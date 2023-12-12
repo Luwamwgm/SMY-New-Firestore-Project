@@ -1,5 +1,5 @@
 /*#root {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -90,13 +90,35 @@ label + input {
 }
 */
 
-.item-list {
+.todo-content ul {
+  list-style: none;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: justify-content; /* or justify-content: space-around; */
 }
 
-.item-list li {
-  width: calc(25% - 10px); /* Adjust the width as needed, considering margins */
-  margin: 0 5px; /* Add some margin between items */
+.todo-content li {
+  flex: 0 0 23%; 
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  
+}
+
+.todo-content img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.todo-content li img {
+  width: auto; 
+  height: auto; 
+  object-fit: cover; 
+  border-radius: 8px; 
+}
+.todo-content li {
+  margin-bottom: 20px; 
 }

@@ -1,5 +1,6 @@
 import { AuthContext } from "./AuthContext";
 import { useContext } from "react";
+//import "./selling.jsx";
 
 export default function Home() {
   const auth = useContext(AuthContext);
@@ -14,7 +15,8 @@ export default function Home() {
       <h3>{name}</h3>
 
       <div>
-        <h1>Abouts us</h1>
+        <h2>SMY Books and Toys</h2>
+
         <p>
           This page is created to help families sell gently used children's toys
           and books. The users of this site can buy and sell their item. This

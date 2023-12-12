@@ -9,10 +9,34 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(firebaseAuth, email, password)
+    setLoading(true);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+
+      // Signed in
+      const user = userCredential.user;
+      console.log("Login successful. Navigating to /SellingPage");
+      navigate("/SellingPage");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Login error:", errorCode, errorMessage);
+      alert("Wrong email or password, Please try again!");
+      // Display error message to the user
+    } finally {
+      setLoading(false);
+    }
+  };
+  /* signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -25,8 +49,9 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log("Login error:", errorCode, errorMessage);
+        alert("please try again");
       });
-  };
+  };*/
 
   return (
     <>
@@ -36,7 +61,7 @@ const Login = () => {
             <h2>To the Selling page Please</h2>
             <h1>Login</h1>
 
-            <form>
+            <form onSubmit={onLogin}>
               <div>
                 <label htmlFor="email-address">Email address</label>
                 <input
@@ -62,7 +87,7 @@ const Login = () => {
               </div>
 
               <div>
-                <button onClick={onLogin}>Login</button>
+                <button type="submit">Login</button>
               </div>
             </form>
 
