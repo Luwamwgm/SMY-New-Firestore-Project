@@ -12,6 +12,7 @@ import "./App.css";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 export default function Selling({}) {
   const auth = useContext(AuthContext);
@@ -25,16 +26,36 @@ export default function Selling({}) {
   const [itemDescription, setItemDescription] = useState("");
   //const [emailMe, setEmailMe] = useState("");
   const [uploadPicture, setUploadPicture] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   //let name = "";
   useEffect(() => {
-    if (auth && auth.currentUser) {
-      const { displayName, email } = auth.currentUser;
-      setName(displayName || email);
-
-      setIsOwner(email === "tes@yahoo.com");
-    }
-  }, [auth]);
+    console.log("selling compnent useEffect");
+    console.log("auth state", auth);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (auth && auth.currentUser) {
+          const { displayName, email } = auth.currentUser;
+          setName(displayName || email);
+          setIsOwner(email === "tes@yahoo.com");
+        } else if (!auth && auth.currentUser) {
+          //setName(""); // Clear name when user is not logged in
+          //setIsOwner(false);
+          setLoading(false);
+          console.log("Redirecting to home page");
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [auth, navigate]);
 
   const addTodo = async (e) => {
     e.preventDefault();
@@ -72,7 +93,7 @@ export default function Selling({}) {
       });
       setLastId(docRef.id);
       console.log("Document written with ID: ", docRef.id);
-
+      //navigate("/SellingPage");
       //fetchPost();
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -128,7 +149,7 @@ export default function Selling({}) {
 
   return (
     <div className="todo">
-      <h1 className="header">Welcome to Selling Page {name}</h1>
+      <h2 className="header">Welcome to Selling Page {name}</h2>
 
       <div className="list">
         <div>

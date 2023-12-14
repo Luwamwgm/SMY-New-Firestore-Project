@@ -1,5 +1,6 @@
 import { AuthContext } from "./AuthContext";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 //import "./selling.jsx";
 
 export default function Home() {
@@ -16,7 +17,14 @@ export default function Home() {
 
       <div>
         <h2>SMY Books and Toys</h2>
-
+        <button>
+          {" "}
+          <NavLink to="/SellingPage">Selling Page</NavLink>
+        </button>
+        <button>
+          {" "}
+          <NavLink to="/BuyingPage">Buying Page</NavLink>
+        </button>
         <p>
           This page is created to help families sell gently used children's toys
           and books. The users of this site can buy and sell their item. This

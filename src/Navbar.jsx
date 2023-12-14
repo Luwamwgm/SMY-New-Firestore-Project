@@ -10,11 +10,12 @@ export default function Navbar() {
   const auth = useContext(AuthContext);
 
   const handleLogout = () => {
+    console.log("logging out");
     signOut(auth)
       .then(() => {
         // Sign-out successful.
         console.log("Signed out successfully");
-        //navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -23,7 +24,7 @@ export default function Navbar() {
 
   return (
     <>
-      <h1>SMY Children's Toys and Books Store</h1>
+      <h1 className="hello">SMY Children's Toys and Books Store</h1>
 
       <div className="navbar">
         <nav>
@@ -49,6 +50,10 @@ export default function Navbar() {
               ) : (
                 <button onClick={() => navigate("/login")}> Login </button>
               )}
+            </li>
+            <li>
+              {" "}
+              <button onClick={() => navigate("/signup")}> sign up </button>
             </li>
           </ul>
         </nav>

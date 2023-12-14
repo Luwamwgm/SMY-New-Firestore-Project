@@ -29,29 +29,18 @@ function App() {
       element: <Layout />,
       children: [
         { path: "/", element: <Home />, errorElement: <Error /> },
-        {
-          path: "/writerunauthenticated",
-          element: <Selling auth={false} />,
-        },
+
         {
           path: "/SellingPage",
           element: auth?.currentUser ? (
-            <Selling auth={true} />
+            <Selling auth={auth} />
           ) : (
-            <Navigate to="/Login" />
+            <Navigate to="/login " replace />
           ),
         },
         {
           path: "/BuyingPage",
           element: <Reader auth={false} />,
-        },
-        {
-          path: "/readerauthenticated",
-          element: auth?.currentUser ? (
-            <Reader auth={true} />
-          ) : (
-            <Navigate to="/Login" />
-          ),
         },
       ],
     },

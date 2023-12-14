@@ -42,3 +42,9 @@ border-radius: 10px;
 cursor: pointer;
 color:brown;
 }
+    .text-sm{
+
+        text-align: center;
+        color:white;
+        font-size: medium;
+    }
