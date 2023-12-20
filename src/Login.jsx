@@ -93,7 +93,9 @@ const Login = () => {
 
             <p className="text-sm text-white text-center">
               No account yet ? Create an account !
-              <NavLink to="/signup">Sign up</NavLink>
+              <NavLink className="button1" to="/signup">
+                Sign up
+              </NavLink>
             </p>
           </div>
         </section>

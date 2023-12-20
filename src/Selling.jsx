@@ -8,7 +8,8 @@ import {
 } from "firebase/firestore";
 import { firebaseAuth } from "./firebase-config";
 import { firestore, storage } from "./firebase-config";
-import "./App.css";
+//import "./App.css";
+import "./Buying.css";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";

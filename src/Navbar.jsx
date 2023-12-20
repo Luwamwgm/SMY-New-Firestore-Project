@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { signOut } from "firebase/auth";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import "./Navbar.css";
+import logo from "../public/images.jpeg";
+import { useState } from "react";
 //import logo from "./images.jpeg";
 
 export default function Navbar() {
@@ -13,50 +15,64 @@ export default function Navbar() {
     console.log("logging out");
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
         console.log("Signed out successfully");
-        navigate("/");
+        auth.setAuth(null);
+        navigate("/", { replace: true });
       })
       .catch((error) => {
-        console.log(error);
+        console.error("error logging out");
+        //alert("Error logging out");
       });
   };
 
   return (
     <>
-      <h1 className="hello">SMY Children's Toys and Books Store</h1>
-
-      <div className="navbar">
-        <nav>
-          <ul>
-            <li>
-              {" "}
-              <Link to="/" className="title">
+      <div className="class">
+        {" "}
+        <div className="logo-container">
+          <a href="/">
+            <img
+              className="logo"
+              src={logo}
+              alt="SMY Children's Toys and Books Store Logo"
+            />
+          </a>
+          <h2 className="hello">
+            <a href="/">SMY Children's Toys and Books Store</a>
+          </h2>
+        </div>
+        <div className="navbar">
+          <nav>
+            <ul>
+              <li>
                 {" "}
-                Home
-              </Link>
-            </li>
+                <Link to="/" className="title">
+                  {" "}
+                  Home
+                </Link>
+              </li>
 
-            <li>
-              <NavLink to="/BuyingPage">Buying</NavLink>
-            </li>
+              <li>
+                <NavLink to="/BuyingPage">Buy Products</NavLink>
+              </li>
 
-            <li>
-              <NavLink to="/SellingPage">Selling</NavLink>
-            </li>
-            <li>
-              {auth && auth.currentUser ? (
-                <button onClick={handleLogout}> Logout </button>
-              ) : (
-                <button onClick={() => navigate("/login")}> Login </button>
-              )}
-            </li>
-            <li>
-              {" "}
-              <button onClick={() => navigate("/signup")}> sign up </button>
-            </li>
-          </ul>
-        </nav>
+              <li>
+                <NavLink to="/SellingPage">Sell Your Items</NavLink>
+              </li>
+              <li>
+                {auth && auth.currentUser ? (
+                  <button onClick={handleLogout}> Logout </button>
+                ) : (
+                  <button onClick={() => navigate("/login")}> Login </button>
+                )}
+              </li>
+              <li>
+                {" "}
+                <button onClick={() => navigate("/signup")}> sign up </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </>
   );

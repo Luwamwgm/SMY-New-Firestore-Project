@@ -5,7 +5,7 @@ main {
     min-height: 100vh;
     align-items: center;
     justify-content: center;
-    background-color:rgb(152, 32, 144);
+    background-color:rgb(239, 235, 239);
 }
 .container-form, .log-form, .sign-form  {
     display:flex;
@@ -17,9 +17,10 @@ form
 {
 
     padding:5rem;
-    border:1px solid white;
+    border:1px solid rgb(18, 14, 14);
     border-radius: 10px;
     margin:0.5rem;
+    background-color: rgb(231, 84, 202);
 }
 
 label{
@@ -36,15 +37,23 @@ input{
 button
 {
 border:none;
-background-color: white;
+background-color: rgb(19, 16, 16);
 padding:20px;
 border-radius: 10px;
 cursor: pointer;
-color:brown;
+color:rgb(42, 165, 89);
 }
     .text-sm{
 
         text-align: center;
-        color:white;
+        color:rgb(13, 10, 10);
         font-size: medium;
+        font-weight: bold;
+    }
+    button1{
+        color:brown;
+        font-size: 20px;
+    }
+    h1,h2{
+        color:rgb(0, 0, 0);
     }

@@ -42,7 +42,7 @@ export default function Reader({}) {
 
   return (
     <>
-      <h1 className="header">Please find Books and Toys </h1>
+      <h1 className="header">Please Find Books and Toys </h1>
 
       <div className="todo-content">
         <ul>
