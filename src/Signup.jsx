@@ -64,7 +64,7 @@ const Signup = () => {
               <button type="submit">Sign up</button>
             </form>
 
-            <p>
+            <p className="text-sm text-white text-center">
               Already have an account? <NavLink to="/login">Sign in</NavLink>
             </p>
           </div>

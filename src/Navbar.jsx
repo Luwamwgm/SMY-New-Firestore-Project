@@ -53,7 +53,7 @@ export default function Navbar() {
               </li>
 
               <li>
-                <NavLink to="/BuyingPage">Buy Products</NavLink>
+                <NavLink to="/BuyingPage">Buy Items</NavLink>
               </li>
 
               <li>

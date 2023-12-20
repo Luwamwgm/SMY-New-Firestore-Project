@@ -17,9 +17,14 @@ export default function Home() {
   const carouselImages = [
     "/book1.jpg",
     "/IMG_20201115_171652.jpg",
-    "/image.png",
+    "/chickenlittle.jpg",
+    "/IMG_20201115_171659.jpg",
+  ];
+  const carouselImages1 = [
+    "/JustLikeMommy.jpg",
     "/itspottytime.jpg",
     "/HowWeSayILoveYou.jpg",
+    "/image.png",
   ];
 
   const carouselSettings = {
@@ -37,7 +42,7 @@ export default function Home() {
           Sell Your Items
         </NavLink>
         <NavLink to="/BuyingPage" className="cta-button">
-          Explore Products
+          Explore and Buy Items
         </NavLink>
       </div>
       <div className="home-wrapper">
@@ -73,7 +78,7 @@ export default function Home() {
             lower price or for free would be benefited.
           </p>
           <Slider {...carouselSettings} className="carousel">
-            {carouselImages.map((image, index) => (
+            {carouselImages1.map((image, index) => (
               <div key={index} className="carousel-item">
                 <img src={image} alt={`Carousel Item ${index + 1}`} />
               </div>
@@ -83,12 +88,25 @@ export default function Home() {
           <p> Please give us your ideas to work better on this platform.</p>
         </div>
       </div>
-      <footer>
-        <p>Contact Us:</p>
-        <p>
-          Email: <a href="mailto:tes@yahoo.com">tes@yahoo.com</a>
-        </p>
-        <p>Phone: +1 (123) 456-7890</p>
+      <footer className="contact-us-footer">
+        <div className="contact-info">
+          <p>Contact Us:</p>
+          <p>
+            Email: <a href="mailto:tes@yahoo.com">tes@yahoo.com</a>
+          </p>
+          <p>Phone: +1 (123) 456-7890</p>
+        </div>
+        <div className="social-media">
+          <p>Follow Us:</p>
+          {}
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Facebook
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            Twitter
+          </a>
+          {}
+        </div>
         <p>© 2023 SMY Children's Toys and Books Store</p>
       </footer>
     </>
