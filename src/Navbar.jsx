@@ -37,7 +37,7 @@ export default function Navbar() {
             />
           </a>
           <h2 className="hello">
-            <a href="/">SMY Children's Toys and Books Store</a>
+            <a href="/">SMY Store</a>
           </h2>
         </div>
         <div className="navbar">

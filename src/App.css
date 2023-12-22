@@ -181,7 +181,7 @@ footer {
   color: #888;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   
   .home-wrapper {
     flex-direction: column;
