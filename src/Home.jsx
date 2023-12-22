@@ -19,6 +19,7 @@ export default function Home() {
     "/IMG_20201115_171652.jpg",
     "/chickenlittle.jpg",
     "/IMG_20201115_171659.jpg",
+    "/HereIcome.jpg",
   ];
   const carouselImages1 = [
     "/JustLikeMommy.jpg",
@@ -49,10 +50,10 @@ export default function Home() {
         <div className="home-container">
           <h3 className="about">About Us</h3>
           <p>
-            This platform is created to help families sell gently used
-            children's toys and books. Users can buy and sell items,
-            contributing to environmental sustainability by reusing items and
-            providing affordable options for families.
+            This platform is provides a market for families to sell and buy
+            gently used children's toys and books online. Users can buy and sell
+            items, this contributes to environmental sustainability by reusing
+            items and providing affordable options for families.
           </p>
           <Slider {...carouselSettings} className="carousel">
             {carouselImages.map((image, index) => (
@@ -74,8 +75,9 @@ export default function Home() {
             For families who want to donate for free can upload their items and
             put price free. So that the families who may need it can take it.
             This would be a win win instead of throwing away toys and books
-            finding someone who may use it and whom those need toys and books in
-            lower price or for free would be benefited.
+            which is not helpful for our environment, finding someone who may
+            use it. Those whom need toys and books would get in lower price or
+            for free would be benefited.
           </p>
           <Slider {...carouselSettings} className="carousel">
             {carouselImages1.map((image, index) => (

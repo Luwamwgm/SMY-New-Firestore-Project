@@ -2,6 +2,7 @@ import "./App.css";
 import { firebaseAuth } from "./firebase-config";
 import { useEffect, createContext } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 // https://stackoverflow.com/questions/68104551/react-firebase-authentication-and-usecontext
 
@@ -15,6 +16,7 @@ export default function AuthProvider({ auth, setAuth, children }) {
         setAuth(firebaseAuth);
       } else {
         console.log("user is logged out");
+
         setAuth(null);
       }
     });

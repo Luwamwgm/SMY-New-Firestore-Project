@@ -3,9 +3,8 @@ import { signOut } from "firebase/auth";
 import { Link, NavLink, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import "./Navbar.css";
-import logo from "../public/images.jpeg";
+import logo from "/images.jpeg";
 import { useState } from "react";
-//import logo from "./images.jpeg";
 
 export default function Navbar() {
   const navigate = useNavigate();

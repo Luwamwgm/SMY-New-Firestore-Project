@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase-config";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import "./App.css";
+//import "./App.css";
 import "./Buying.css";
 
 export default function Reader({}) {
